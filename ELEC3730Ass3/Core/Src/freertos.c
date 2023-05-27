@@ -56,6 +56,7 @@ osThreadId fileSystemTaskHandle;
 osMessageQId stateQueueHandle;
 osMessageQId renderQueueHandle;
 osMessageQId keypadQueueHandle;
+osMessageQId fileSystemQueueHandle;
 osTimerId messageTimerHandle;
 osMutexId cameraMutexHandle;
 osMutexId sdMutexHandle;
@@ -154,6 +155,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of keypadQueue */
   osMessageQDef(keypadQueue, 4, uint16_t);
   keypadQueueHandle = osMessageCreate(osMessageQ(keypadQueue), NULL);
+
+  /* definition and creation of fileSystemQueue */
+  osMessageQDef(fileSystemQueue, 16, uint16_t);
+  fileSystemQueueHandle = osMessageCreate(osMessageQ(fileSystemQueue), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */

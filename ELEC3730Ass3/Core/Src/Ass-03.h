@@ -62,6 +62,7 @@
 
 #define f_unmount(path) f_mount(0, path, 0)
 #define f_size(fp) ((fp)->obj.objsize)
+#define BUFFER_SIZE					4096
 
 // Global Variables
 //enum State {WELCOME, REGISTER_ID, REGISTER_PIN, LOGIN_ID, LOGIN_PIN};
@@ -77,6 +78,7 @@ extern osThreadId keypadTaskHandle;
 extern osMessageQId stateQueueHandle;
 extern osMessageQId renderQueueHandle;
 extern osMessageQId keypadQueueHandle;
+extern osMessageQId fileSystemQueueHandle;
 extern osTimerId messageTimerHandle;
 extern osMutexId cameraMutexHandle;
 extern osMutexId sdMutexHandle;
