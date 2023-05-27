@@ -1,0 +1,10 @@
+freertos.c:88:6:vApplicationGetIdleTaskMemory	1
+freertos.c:101:6:vApplicationGetTimerTaskMemory	1
+freertos.c:115:6:MX_FREERTOS_Init	1
+freertos.c:200:13:StartDefaultTask	1
+freertos.c:218:13:StartControlTask	1
+freertos.c:236:13:StartLCDTask	1
+freertos.c:254:13:StartTouchPanelTask	1
+freertos.c:272:13:StartKeypadTask	1
+freertos.c:290:13:StartFileSystemTask	1
+freertos.c:302:13:MessageTimerCallback	1

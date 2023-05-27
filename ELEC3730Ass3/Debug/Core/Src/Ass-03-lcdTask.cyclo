@@ -1,0 +1,5 @@
+Ass-03-lcdTask.c:13:6:display_welcome	1
+Ass-03-lcdTask.c:33:6:display_keypad	3
+Ass-03-lcdTask.c:58:6:display_registration	2
+Ass-03-lcdTask.c:85:6:display_login	6
+Ass-03-lcdTask.c:133:6:StartLCDTask	10
