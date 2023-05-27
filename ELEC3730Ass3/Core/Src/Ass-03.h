@@ -65,7 +65,6 @@
 #define BUFFER_SIZE					4096
 
 // Global Variables
-//enum State {WELCOME, REGISTER_ID, REGISTER_PIN, LOGIN_ID, LOGIN_PIN};
 enum State {WELCOME, REGISTER_ID, REGISTER_PIN, LOGIN_ID, LOGIN_PIN};
 enum Command {FINISHED, REG_ID, REG_PIN, LOG_ID, LOG_ID_ERR, LOG_ID_OK, LOG_AUTH_ERR, LOG_AUTH_OK};
 
@@ -75,6 +74,8 @@ extern osThreadId controlTaskHandle;
 extern osThreadId lcdTaskHandle;
 extern osThreadId touchPanelTaskHandle;
 extern osThreadId keypadTaskHandle;
+extern osThreadId fileSystemTaskHandle;
+extern osThreadId cameraTaskHandle;
 extern osMessageQId stateQueueHandle;
 extern osMessageQId renderQueueHandle;
 extern osMessageQId keypadQueueHandle;
@@ -90,6 +91,7 @@ void StartLCDTask(void const * argument);
 void StartTouchPanelTask(void const * argument);
 void StartKeypadTask(void const * argument);
 void StartFileSystemTask(void const * argument);
+void StartCameraTask(void const * argument);
 void MessageTimerCallback(void const * argument);
 
 #endif /* SRC_ASS_03_H_ */

@@ -53,6 +53,7 @@ osThreadId lcdTaskHandle;
 osThreadId touchPanelTaskHandle;
 osThreadId keypadTaskHandle;
 osThreadId fileSystemTaskHandle;
+osThreadId cameraTaskHandle;
 osMessageQId stateQueueHandle;
 osMessageQId renderQueueHandle;
 osMessageQId keypadQueueHandle;
@@ -72,6 +73,7 @@ void StartLCDTask(void const * argument);
 void StartTouchPanelTask(void const * argument);
 void StartKeypadTask(void const * argument);
 void StartFileSystemTask(void const * argument);
+void StartCameraTask(void const * argument);
 void MessageTimerCallback(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -189,6 +191,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(fileSystemTask, StartFileSystemTask, osPriorityNormal, 0, 128);
   fileSystemTaskHandle = osThreadCreate(osThread(fileSystemTask), NULL);
 
+  /* definition and creation of cameraTask */
+  osThreadDef(cameraTask, StartCameraTask, osPriorityNormal, 0, 128);
+  cameraTaskHandle = osThreadCreate(osThread(cameraTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -301,6 +307,24 @@ __weak void StartFileSystemTask(void const * argument)
     osDelay(1);
   }
   /* USER CODE END StartFileSystemTask */
+}
+
+/* USER CODE BEGIN Header_StartCameraTask */
+/**
+* @brief Function implementing the cameraTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartCameraTask */
+__weak void StartCameraTask(void const * argument)
+{
+  /* USER CODE BEGIN StartCameraTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartCameraTask */
 }
 
 /* MessageTimerCallback function */
