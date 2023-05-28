@@ -5,18 +5,27 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Drivers/BSP/dcmi_ov7670.c \
 ../Drivers/BSP/ili9325.c \
 ../Drivers/BSP/openx07v_c_lcd.c \
+../Drivers/BSP/sccb.c \
+../Drivers/BSP/stm32f4xx_hal_i2c.c \
 ../Drivers/BSP/touch_panel.c 
 
 OBJS += \
+./Drivers/BSP/dcmi_ov7670.o \
 ./Drivers/BSP/ili9325.o \
 ./Drivers/BSP/openx07v_c_lcd.o \
+./Drivers/BSP/sccb.o \
+./Drivers/BSP/stm32f4xx_hal_i2c.o \
 ./Drivers/BSP/touch_panel.o 
 
 C_DEPS += \
+./Drivers/BSP/dcmi_ov7670.d \
 ./Drivers/BSP/ili9325.d \
 ./Drivers/BSP/openx07v_c_lcd.d \
+./Drivers/BSP/sccb.d \
+./Drivers/BSP/stm32f4xx_hal_i2c.d \
 ./Drivers/BSP/touch_panel.d 
 
 
@@ -27,7 +36,7 @@ Drivers/BSP/%.o Drivers/BSP/%.su Drivers/BSP/%.cyclo: ../Drivers/BSP/%.c Drivers
 clean: clean-Drivers-2f-BSP
 
 clean-Drivers-2f-BSP:
-	-$(RM) ./Drivers/BSP/ili9325.cyclo ./Drivers/BSP/ili9325.d ./Drivers/BSP/ili9325.o ./Drivers/BSP/ili9325.su ./Drivers/BSP/openx07v_c_lcd.cyclo ./Drivers/BSP/openx07v_c_lcd.d ./Drivers/BSP/openx07v_c_lcd.o ./Drivers/BSP/openx07v_c_lcd.su ./Drivers/BSP/touch_panel.cyclo ./Drivers/BSP/touch_panel.d ./Drivers/BSP/touch_panel.o ./Drivers/BSP/touch_panel.su
+	-$(RM) ./Drivers/BSP/dcmi_ov7670.cyclo ./Drivers/BSP/dcmi_ov7670.d ./Drivers/BSP/dcmi_ov7670.o ./Drivers/BSP/dcmi_ov7670.su ./Drivers/BSP/ili9325.cyclo ./Drivers/BSP/ili9325.d ./Drivers/BSP/ili9325.o ./Drivers/BSP/ili9325.su ./Drivers/BSP/openx07v_c_lcd.cyclo ./Drivers/BSP/openx07v_c_lcd.d ./Drivers/BSP/openx07v_c_lcd.o ./Drivers/BSP/openx07v_c_lcd.su ./Drivers/BSP/sccb.cyclo ./Drivers/BSP/sccb.d ./Drivers/BSP/sccb.o ./Drivers/BSP/sccb.su ./Drivers/BSP/stm32f4xx_hal_i2c.cyclo ./Drivers/BSP/stm32f4xx_hal_i2c.d ./Drivers/BSP/stm32f4xx_hal_i2c.o ./Drivers/BSP/stm32f4xx_hal_i2c.su ./Drivers/BSP/touch_panel.cyclo ./Drivers/BSP/touch_panel.d ./Drivers/BSP/touch_panel.o ./Drivers/BSP/touch_panel.su
 
 .PHONY: clean-Drivers-2f-BSP
 

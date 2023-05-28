@@ -59,8 +59,9 @@ osMessageQId renderQueueHandle;
 osMessageQId keypadQueueHandle;
 osMessageQId fileSystemQueueHandle;
 osTimerId messageTimerHandle;
-osMutexId cameraMutexHandle;
+osMutexId lcdMutexHandle;
 osMutexId sdMutexHandle;
+osSemaphoreId startSemHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -120,9 +121,9 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE END Init */
   /* Create the mutex(es) */
-  /* definition and creation of cameraMutex */
-  osMutexDef(cameraMutex);
-  cameraMutexHandle = osMutexCreate(osMutex(cameraMutex));
+  /* definition and creation of lcdMutex */
+  osMutexDef(lcdMutex);
+  lcdMutexHandle = osMutexCreate(osMutex(lcdMutex));
 
   /* definition and creation of sdMutex */
   osMutexDef(sdMutex);
@@ -131,6 +132,11 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* definition and creation of startSem */
+  osSemaphoreDef(startSem);
+  startSemHandle = osSemaphoreCreate(osSemaphore(startSem), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */

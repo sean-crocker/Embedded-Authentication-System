@@ -1,0 +1,4 @@
+sccb.c:51:6:SCCB_GPIO_Config	1
+sccb.c:92:9:DCMI_SingleRandomWrite	2
+sccb.c:109:9:DCMI_SingleRandomRead	2
+sccb.c:218:20:I2C_CheckEvent	2

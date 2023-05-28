@@ -1,0 +1,4 @@
+../Drivers/BSP/sccb.c:51:6:SCCB_GPIO_Config	4	static
+../Drivers/BSP/sccb.c:92:9:DCMI_SingleRandomWrite	32	static
+../Drivers/BSP/sccb.c:109:9:DCMI_SingleRandomRead	40	static
+../Drivers/BSP/sccb.c:218:20:I2C_CheckEvent	32	static

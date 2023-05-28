@@ -8,7 +8,59 @@
 #include "Ass-03.h"
 
 //extern enum State state;		// State of the system
-extern enum Command;
+//extern enum Command;
+
+uint16_t get_string_width(const char* str)
+{
+	uint16_t charCount = 0;
+	for (const char* p = str; *p != '\0'; p++) {
+		charCount++;
+	}
+	return charCount * BSP_LCD_GetFont()->Width;
+}
+
+void drawButtonBeveled(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const char* text) {
+	ili9325_WriteReg(LCD_REG_3, 0x1028);
+	BSP_LCD_SetTextColor(LCD_COLOR_DARKGRAY);  // Set the button color
+
+	// Draw the button body
+	BSP_LCD_FillRect(x, y, width, height);
+
+	// Draw the top bevel
+	BSP_LCD_SetTextColor(LCD_COLOR_LIGHTGRAY);
+	BSP_LCD_DrawLine(x, y, x + width - 1, y);
+	BSP_LCD_DrawLine(x, y + 1, x + width - 2, y + 1);
+
+	// Draw the left bevel
+	BSP_LCD_DrawLine(x, y, x, y + height - 1);
+	BSP_LCD_DrawLine(x + 1, y, x + 1, y + height - 2);
+
+	// Draw the bottom bevel
+	BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+	BSP_LCD_DrawLine(x, y + height - 1, x + width - 1, y + height - 1);
+	BSP_LCD_DrawLine(x, y + height - 2, x + width - 2, y + height - 2);
+
+	// Draw the right bevel
+	BSP_LCD_DrawLine(x + width - 1, y, x + width - 1, y + height - 1);
+	BSP_LCD_DrawLine(x + width - 2, y, x + width - 2, y + height - 2);
+
+	// Add the text
+	BSP_LCD_DisplayStringAt(x + BTN_WIDTH/2 - get_string_width(text)/2, y + BTN_HEIGHT/2 - BSP_LCD_GetFont()->Height/2, (uint8_t *)text, LEFT_MODE);
+}
+
+void draw_button(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t radius, const char* text) {
+    ili9325_WriteReg(LCD_REG_3, 0x1028);
+	BSP_LCD_FillCircle(x + radius, y + radius, radius);
+    BSP_LCD_FillCircle(x + radius, y + height - radius - 1, radius);
+    BSP_LCD_FillCircle(x + width - radius - 1, y + radius, radius);
+    BSP_LCD_FillCircle(x + width - radius - 1, y + height - radius - 1, radius);
+
+    BSP_LCD_FillRect(x + radius, y, width - 2 * radius, height);
+    BSP_LCD_FillRect(x, y + radius, width, height - 2 * radius);
+
+    // Add the text
+	BSP_LCD_DisplayStringAt(x + BTN_WIDTH/2 - get_string_width(text)/2, y + BTN_HEIGHT/2 - BSP_LCD_GetFont()->Height/2, (uint8_t *)text, LEFT_MODE);
+}
 
 void display_welcome()
 {
@@ -19,40 +71,41 @@ void display_welcome()
 
 	BSP_LCD_SetFont(&Font16);											// Set the font to be used for buttons
 
-	// TODO: Input Live Camera
-
-	BSP_LCD_DrawRect(BTN_REGISTER_X_POS, BTN_REGISTER_Y_POS, BTN_WIDTH, BTN_HEIGHT);
-	BSP_LCD_DisplayStringAt((BTN_REGISTER_X_POS + BTN_REGISTER_TEXT_X_PADDING),
-			(BTN_REGISTER_Y_POS + BTN_TEXT_Y_PADDING), (uint8_t*)"Register", LEFT_MODE);
-
-	BSP_LCD_DrawRect(BTN_LOGIN_X_POS, BTN_LOGIN_Y_POS, BTN_WIDTH, BTN_HEIGHT);
-	BSP_LCD_DisplayStringAt((BTN_LOGIN_X_POS + BTN_LOGIN_TEXT_X_PADDING),
-			(BTN_LOGIN_Y_POS + BTN_TEXT_Y_PADDING), (uint8_t*)"Login", LEFT_MODE);
+	drawButtonBeveled(BTN_REGISTER_X_POS, BTN_REGISTER_Y_POS, BTN_WIDTH, BTN_HEIGHT, "Register");
+	drawButtonBeveled(BTN_LOGIN_X_POS, BTN_LOGIN_Y_POS, BTN_WIDTH, BTN_HEIGHT, "Login");
 }
 
 void display_keypad()
 {
-	// TODO: Change if live preview is cleared
-	//for (uint16_t y = 90; y <= 230; y++) {
-	//	BSP_LCD_ClearStringLine(y);
-	//}
-
-	BSP_LCD_DrawRect(KEY_DISPLAY_X_POS, KEY_DISPLAY_Y_POS, KEY_DISPLAY_WIDTH, KEY_DISPLAY_HEIGHT);
+	draw_button(KEY_DISPLAY_X_POS, KEY_DISPLAY_Y_POS, KEY_DISPLAY_WIDTH, KEY_DISPLAY_HEIGHT, 5, "");
 	uint16_t y_pos = KEY_BTN_Y_POS;
-	uint8_t btn_number = 0;
-	char key_value[1];
+	char btn_number = 0;
 	for (int row = 1; row <= 3; row++) {
 		uint16_t x_pos = KEY_BTN_X_POS;
 		for (int column = 1; column <= 3; column++) {
-			BSP_LCD_DrawRect(x_pos, y_pos, KEY_BTN_SIZE, KEY_BTN_SIZE);
-			sprintf(key_value, "%d", ++btn_number);
-			BSP_LCD_DisplayStringAt((x_pos + 4), (y_pos + 2), (uint8_t*)key_value, LEFT_MODE);
+			draw_button(x_pos, y_pos, KEY_BTN_SIZE, KEY_BTN_SIZE, 2, ++btn_number);
 			x_pos += 30;
 		}
 		y_pos += 30;
 	}
-	BSP_LCD_DrawRect(230, 210, KEY_BTN_SIZE, KEY_BTN_SIZE);
-	BSP_LCD_DisplayStringAt((230 + 4), (210 + 2), (uint8_t*)"0", LEFT_MODE);
+	draw_button(230, 210, KEY_BTN_SIZE, KEY_BTN_SIZE, 2, '0');
+}
+
+uint16_t get_next_user()
+{
+	uint16_t line_count = 0;
+	char rtext[256]; 					// File read buffer
+	FIL MyFile; 						// File object
+	FRESULT res; 						// FatFs function common result code
+	// Open the text file object for reading
+	if ((res = f_open(&MyFile, "storage_file.txt", FA_READ)) != FR_OK)
+		printf("ERROR: %s file Open for read Error: %d\r\n", "storage_file.txt", res);
+	// Read the file line by line
+	while (f_gets(rtext, sizeof(rtext), &MyFile) != NULL)
+		line_count++;
+	// Close the file
+	f_close(&MyFile);
+	return line_count;
 }
 
 void display_registration(bool hasTakenPhoto)
@@ -65,106 +118,91 @@ void display_registration(bool hasTakenPhoto)
 	BSP_LCD_SetFont(&Font16);											// Set the font to be used for buttons
 
 	// TODO: Read SD to get user ID
-	BSP_LCD_DisplayStringAt(223, 50, (uint8_t*)"000", LEFT_MODE);					// Display User ID
+	char id[4];
+	sprintf(id, "%03d", get_next_user());
+	BSP_LCD_DisplayStringAt(240 - get_string_width(id)/2, 50, (uint8_t*)id, LEFT_MODE);			// Display User ID
 
-	// TODO: Input Live Camera
-
-	BSP_LCD_DrawRect(BTN_CANCEL_X_POS, BTN_CANCEL_Y_POS, BTN_WIDTH, BTN_HEIGHT);
-	BSP_LCD_DisplayStringAt((BTN_CANCEL_X_POS + BTN_CANCEL_TEXT_X_PADDING),
-			(BTN_CANCEL_Y_POS + BTN_TEXT_Y_PADDING), (uint8_t*)"Cancel", LEFT_MODE);
+	draw_button(BTN_CANCEL_X_POS, BTN_CANCEL_Y_POS, BTN_WIDTH, BTN_HEIGHT, 5, "Cancel");
 
 	if (hasTakenPhoto)
 		display_keypad();
-	else {
-		BSP_LCD_DrawRect(BTN_PHOTO_X_POS, BTN_PHOTO_Y_POS, BTN_WIDTH, BTN_HEIGHT);
-		BSP_LCD_DisplayStringAt((BTN_PHOTO_X_POS + BTN_PHOTO_TEXT_X_PADDING),
-				(BTN_PHOTO_Y_POS + BTN_TEXT_Y_PADDING), (uint8_t*)"Photo", LEFT_MODE);
-	}
+	else
+		draw_button(BTN_PHOTO_X_POS, BTN_PHOTO_Y_POS, BTN_WIDTH, BTN_HEIGHT, 5, "Photo");
 }
 
-void display_login(enum Command command)
+void display_login(const char* text)
 {
 	BSP_LCD_Clear(LCD_COLOR_WHITE);										// Clear the LCD and set background to white
 	BSP_LCD_SetFont(&Font20);											// Set the font to be used
 	BSP_LCD_SetTextColor(LCD_COLOR_BLACK);								// Set the text colour to black
-	BSP_LCD_DisplayStringAt(205, 20, (uint8_t*)"LOGIN", LEFT_MODE);				// Display login statement
+	BSP_LCD_DisplayStringAt(205, 20, (uint8_t*)"LOGIN", LEFT_MODE);		// Display login statement
 
 	BSP_LCD_SetFont(&Font16);											// Set the font to be used for buttons
+	BSP_LCD_DisplayStringAt(240 - get_string_width(text)/2, 50, (uint8_t*)text, LEFT_MODE);
+	display_keypad();
+	draw_button(BTN_CANCEL_X_POS, BTN_CANCEL_Y_POS, BTN_WIDTH, BTN_HEIGHT, 5, "Cancel");
+}
 
-	//char prompt[] = hasID ? "Enter Pin" : "Enter ID";
-	//BSP_LCD_DisplayStringAt(210, 50, (uint8_t*)prompt, CENTER_MODE);
-
-	switch (command) {
-		case (LOG_ID):
-			BSP_LCD_DisplayStringAt(196, 50, (uint8_t*)"Enter ID", LEFT_MODE);		// Prompt to enter user ID
-			// TODO: Input Live Camera
+void update_display(enum State state)
+{
+	switch (state) {
+		case (WELCOME):
+			display_welcome();
 			break;
-		case (LOG_ID_ERR):
-			BSP_LCD_SetTextColor(LCD_COLOR_RED);							// Set the text colour to red
-			BSP_LCD_DisplayStringAt(174, 50, (uint8_t*)"ID Not Valid", LEFT_MODE);
-			// TODO: Input Live Camera
+		case (REGISTER_ID):
+			display_registration(0);
 			break;
-		case (LOG_ID_OK):
-			BSP_LCD_DisplayStringAt(190, 50, (uint8_t*)"Enter PIN", LEFT_MODE);		// Prompt to enter user PIN
-			// TODO: Read photo from SD and display on screen
+		case (REGISTER_PIN):
+			display_registration(1);
 			break;
-		case (LOG_AUTH_ERR):
-			BSP_LCD_SetTextColor(LCD_COLOR_RED);							// Set the text colour to red
-			BSP_LCD_DisplayStringAt(168, 50, (uint8_t*)"Access Denied", LEFT_MODE);
-			// TODO: Read photo from SD and display on screen
+		case (LOGIN_ID):
+			display_login("Enter ID:");
 			break;
-		case (LOG_AUTH_OK):
-			BSP_LCD_SetTextColor(LCD_COLOR_GREEN);							// Set the text colour to green
-			BSP_LCD_DisplayStringAt(163, 50, (uint8_t*)"Access Granted", LEFT_MODE);
-			// TODO: Read photo from SD and display on screen
-			break;
-		default:
-			printf("Error displaying login screen.\n");
+		case (LOGIN_PIN):
+			display_login("Enter PIN:");
 			break;
 	}
 
-	display_keypad();
-
-	BSP_LCD_DrawRect(BTN_CANCEL_X_POS, BTN_CANCEL_Y_POS, BTN_WIDTH, BTN_HEIGHT);
-	BSP_LCD_DisplayStringAt((BTN_CANCEL_X_POS + BTN_CANCEL_TEXT_X_PADDING),
-			(BTN_CANCEL_Y_POS + BTN_TEXT_Y_PADDING), (uint8_t*)"Cancel", LEFT_MODE);
 }
 
 void StartLCDTask(void const * argument)
 {
 	BSP_LCD_Init();							// Initialize the LCD
 	BSP_LCD_DisplayOn();					// Enable the LCD
-	TouchPanel_Calibrate();					// Touch Panel configuration
 	osEvent event;							// Event structure to receive message from queue
+	osSemaphoreWait(startSemHandle, osWaitForever);
 	display_welcome();
 	while(1) {
 		event = osMessageGet(renderQueueHandle, osWaitForever);
 		if (event.status == 0x10) {
-			switch (event.value.v) {
-				case (FINISHED):
-					display_welcome();
-					break;
-				case (REG_ID):
-					display_registration(0);
-					break;
-				case (REG_PIN):
-					display_registration(1);
-					break;
-				case (LOG_ID):
-					display_login(LOG_ID);
-					break;
-				case (LOG_ID_ERR):
-					display_login(LOG_ID_ERR);
-					break;
-				case (LOG_ID_OK):
-					display_login(LOG_ID_OK);
-					break;
-				case (LOG_AUTH_ERR):
-					display_login(LOG_AUTH_ERR);
-					break;
-				case (LOG_AUTH_OK):
-					display_login(LOG_AUTH_OK);
-					break;
+			if (osMutexWait(lcdMutexHandle, osWaitForever) == osOK) {
+				switch (event.value.v) {
+					case (FINISHED):
+						display_welcome();
+						break;
+					case (REG_ID):
+						display_registration(0);
+						break;
+					case (REG_PIN):
+						display_registration(1);
+						break;
+					case (LOG_ID):
+						display_login("Enter ID:");
+						break;
+					case (LOG_ID_ERR):
+						display_login("Invalid ID");
+						break;
+					case (LOG_ID_OK):
+						display_login("Enter Prompt:");
+						break;
+					case (LOG_AUTH_ERR):
+						display_login("Access Denied");
+						break;
+					case (LOG_AUTH_OK):
+						display_login("Access Granted");
+						break;
+				}
+			osMutexRelease(lcdMutexHandle);
 			}
 		}
 		osDelay(100);

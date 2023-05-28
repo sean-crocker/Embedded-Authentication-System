@@ -70,8 +70,8 @@ all: main-build
 main-build: ELEC3730Ass3.elf secondary-outputs
 
 # Tool invocations
-ELEC3730Ass3.elf ELEC3730Ass3.map: $(OBJS) $(USER_OBJS) C:\Users\SeanCrocker\STM32CubeIDE\workspace_1.7.0\ELEC3730Ass3\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ELEC3730Ass3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\SeanCrocker\STM32CubeIDE\workspace_1.7.0\ELEC3730Ass3\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ELEC3730Ass3.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+ELEC3730Ass3.elf ELEC3730Ass3.map: $(OBJS) $(USER_OBJS) C:\Users\SeanCrocker\git\Embedded-Authentication-System\ELEC3730Ass3\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "ELEC3730Ass3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\SeanCrocker\git\Embedded-Authentication-System\ELEC3730Ass3\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ELEC3730Ass3.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

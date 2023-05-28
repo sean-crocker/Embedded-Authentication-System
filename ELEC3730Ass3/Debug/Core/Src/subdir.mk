@@ -5,12 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/Ass-03-controlTask.c \
-../Core/Src/Ass-03-fileSystemTask.c \
-../Core/Src/Ass-03-keypadTask.c \
-../Core/Src/Ass-03-lcdTask.c \
-../Core/Src/Ass-03-messageTimer.c \
-../Core/Src/Ass-03-touchPanelTask.c \
+../Core/Src/Ass-03-CameraTask.c \
+../Core/Src/Ass-03-ControlTask.c \
+../Core/Src/Ass-03-KeypadTask.c \
+../Core/Src/Ass-03-LCDTask.c \
+../Core/Src/Ass-03-MessageTimer.c \
+../Core/Src/Ass-03-SDTask.c \
+../Core/Src/Ass-03-TouchPanelTask.c \
 ../Core/Src/dcmi.c \
 ../Core/Src/dma.c \
 ../Core/Src/freertos.c \
@@ -27,12 +28,13 @@ C_SRCS += \
 ../Core/Src/system_stm32f4xx.c 
 
 OBJS += \
-./Core/Src/Ass-03-controlTask.o \
-./Core/Src/Ass-03-fileSystemTask.o \
-./Core/Src/Ass-03-keypadTask.o \
-./Core/Src/Ass-03-lcdTask.o \
-./Core/Src/Ass-03-messageTimer.o \
-./Core/Src/Ass-03-touchPanelTask.o \
+./Core/Src/Ass-03-CameraTask.o \
+./Core/Src/Ass-03-ControlTask.o \
+./Core/Src/Ass-03-KeypadTask.o \
+./Core/Src/Ass-03-LCDTask.o \
+./Core/Src/Ass-03-MessageTimer.o \
+./Core/Src/Ass-03-SDTask.o \
+./Core/Src/Ass-03-TouchPanelTask.o \
 ./Core/Src/dcmi.o \
 ./Core/Src/dma.o \
 ./Core/Src/freertos.o \
@@ -49,12 +51,13 @@ OBJS += \
 ./Core/Src/system_stm32f4xx.o 
 
 C_DEPS += \
-./Core/Src/Ass-03-controlTask.d \
-./Core/Src/Ass-03-fileSystemTask.d \
-./Core/Src/Ass-03-keypadTask.d \
-./Core/Src/Ass-03-lcdTask.d \
-./Core/Src/Ass-03-messageTimer.d \
-./Core/Src/Ass-03-touchPanelTask.d \
+./Core/Src/Ass-03-CameraTask.d \
+./Core/Src/Ass-03-ControlTask.d \
+./Core/Src/Ass-03-KeypadTask.d \
+./Core/Src/Ass-03-LCDTask.d \
+./Core/Src/Ass-03-MessageTimer.d \
+./Core/Src/Ass-03-SDTask.d \
+./Core/Src/Ass-03-TouchPanelTask.d \
 ./Core/Src/dcmi.d \
 ./Core/Src/dma.d \
 ./Core/Src/freertos.d \
@@ -78,7 +81,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/Ass-03-controlTask.cyclo ./Core/Src/Ass-03-controlTask.d ./Core/Src/Ass-03-controlTask.o ./Core/Src/Ass-03-controlTask.su ./Core/Src/Ass-03-fileSystemTask.cyclo ./Core/Src/Ass-03-fileSystemTask.d ./Core/Src/Ass-03-fileSystemTask.o ./Core/Src/Ass-03-fileSystemTask.su ./Core/Src/Ass-03-keypadTask.cyclo ./Core/Src/Ass-03-keypadTask.d ./Core/Src/Ass-03-keypadTask.o ./Core/Src/Ass-03-keypadTask.su ./Core/Src/Ass-03-lcdTask.cyclo ./Core/Src/Ass-03-lcdTask.d ./Core/Src/Ass-03-lcdTask.o ./Core/Src/Ass-03-lcdTask.su ./Core/Src/Ass-03-messageTimer.cyclo ./Core/Src/Ass-03-messageTimer.d ./Core/Src/Ass-03-messageTimer.o ./Core/Src/Ass-03-messageTimer.su ./Core/Src/Ass-03-touchPanelTask.cyclo ./Core/Src/Ass-03-touchPanelTask.d ./Core/Src/Ass-03-touchPanelTask.o ./Core/Src/Ass-03-touchPanelTask.su ./Core/Src/dcmi.cyclo ./Core/Src/dcmi.d ./Core/Src/dcmi.o ./Core/Src/dcmi.su ./Core/Src/dma.cyclo ./Core/Src/dma.d ./Core/Src/dma.o ./Core/Src/dma.su ./Core/Src/freertos.cyclo ./Core/Src/freertos.d ./Core/Src/freertos.o ./Core/Src/freertos.su ./Core/Src/fsmc.cyclo ./Core/Src/fsmc.d ./Core/Src/fsmc.o ./Core/Src/fsmc.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/i2c.cyclo ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/sdio.cyclo ./Core/Src/sdio.d ./Core/Src/sdio.o ./Core/Src/sdio.su ./Core/Src/spi.cyclo ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/spi.su ./Core/Src/stm32f4xx_hal_msp.cyclo ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_hal_timebase_tim.cyclo ./Core/Src/stm32f4xx_hal_timebase_tim.d ./Core/Src/stm32f4xx_hal_timebase_tim.o ./Core/Src/stm32f4xx_hal_timebase_tim.su ./Core/Src/stm32f4xx_it.cyclo ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su
+	-$(RM) ./Core/Src/Ass-03-CameraTask.cyclo ./Core/Src/Ass-03-CameraTask.d ./Core/Src/Ass-03-CameraTask.o ./Core/Src/Ass-03-CameraTask.su ./Core/Src/Ass-03-ControlTask.cyclo ./Core/Src/Ass-03-ControlTask.d ./Core/Src/Ass-03-ControlTask.o ./Core/Src/Ass-03-ControlTask.su ./Core/Src/Ass-03-KeypadTask.cyclo ./Core/Src/Ass-03-KeypadTask.d ./Core/Src/Ass-03-KeypadTask.o ./Core/Src/Ass-03-KeypadTask.su ./Core/Src/Ass-03-LCDTask.cyclo ./Core/Src/Ass-03-LCDTask.d ./Core/Src/Ass-03-LCDTask.o ./Core/Src/Ass-03-LCDTask.su ./Core/Src/Ass-03-MessageTimer.cyclo ./Core/Src/Ass-03-MessageTimer.d ./Core/Src/Ass-03-MessageTimer.o ./Core/Src/Ass-03-MessageTimer.su ./Core/Src/Ass-03-SDTask.cyclo ./Core/Src/Ass-03-SDTask.d ./Core/Src/Ass-03-SDTask.o ./Core/Src/Ass-03-SDTask.su ./Core/Src/Ass-03-TouchPanelTask.cyclo ./Core/Src/Ass-03-TouchPanelTask.d ./Core/Src/Ass-03-TouchPanelTask.o ./Core/Src/Ass-03-TouchPanelTask.su ./Core/Src/dcmi.cyclo ./Core/Src/dcmi.d ./Core/Src/dcmi.o ./Core/Src/dcmi.su ./Core/Src/dma.cyclo ./Core/Src/dma.d ./Core/Src/dma.o ./Core/Src/dma.su ./Core/Src/freertos.cyclo ./Core/Src/freertos.d ./Core/Src/freertos.o ./Core/Src/freertos.su ./Core/Src/fsmc.cyclo ./Core/Src/fsmc.d ./Core/Src/fsmc.o ./Core/Src/fsmc.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/i2c.cyclo ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/sdio.cyclo ./Core/Src/sdio.d ./Core/Src/sdio.o ./Core/Src/sdio.su ./Core/Src/spi.cyclo ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/spi.su ./Core/Src/stm32f4xx_hal_msp.cyclo ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_hal_timebase_tim.cyclo ./Core/Src/stm32f4xx_hal_timebase_tim.d ./Core/Src/stm32f4xx_hal_timebase_tim.o ./Core/Src/stm32f4xx_hal_timebase_tim.su ./Core/Src/stm32f4xx_it.cyclo ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su
 
 .PHONY: clean-Core-2f-Src
 

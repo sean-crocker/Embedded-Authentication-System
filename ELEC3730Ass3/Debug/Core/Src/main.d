@@ -62,7 +62,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/i2c.h ../Core/Inc/sdio.h ../Core/Inc/spi.h \
  ../Core/Inc/gpio.h ../Core/Inc/fsmc.h ../Drivers/BSP/openx07v_c_lcd.h \
  ../Drivers/BSP/../BSP/ili9325.h ../Drivers/BSP/../BSP/../BSP/lcd.h \
- ../Drivers/BSP/../Fonts/fonts.h ../Drivers/BSP/touch_panel.h
+ ../Drivers/BSP/../Fonts/fonts.h ../Drivers/BSP/dcmi_ov7670.h \
+ ../Drivers/BSP/sccb.h ../Drivers/BSP/touch_panel.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -139,4 +140,6 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/BSP/../BSP/ili9325.h:
 ../Drivers/BSP/../BSP/../BSP/lcd.h:
 ../Drivers/BSP/../Fonts/fonts.h:
+../Drivers/BSP/dcmi_ov7670.h:
+../Drivers/BSP/sccb.h:
 ../Drivers/BSP/touch_panel.h:

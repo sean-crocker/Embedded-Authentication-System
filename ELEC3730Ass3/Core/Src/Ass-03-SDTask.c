@@ -20,6 +20,8 @@ uint32_t byteswritten, bytesread; 	// File write/read counts
 BYTE buffer[BUFFER_SIZE];         	// Working buffer
 char rtext[256]; 					// File read buffer
 
+uint32_t current_user_id = 0;
+
 void initialise()
 {
 	if (HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_3) != 0)							// Card detection status
@@ -28,8 +30,6 @@ void initialise()
 		printf("ERROR: Linking of SD disk I/O driver failed\n");
 	if ((res = f_mount(&SDFatFs, (TCHAR const*)SDPath, 1)) != FR_OK)		// Register the file system object to the module
 		printf("ERROR: Could not mount SD card (%d).\n", res);
-	if ((res = f_mkfs(SDPath, FM_FAT32, 4096, buffer, sizeof buffer)) != FR_OK)	// Format the drive
-		printf("ERROR: Could not create FAT file system on SD card (%d).\n", res);
 }
 
 void read_user_id()
@@ -66,6 +66,7 @@ void write_user(TCHAR *file, TCHAR info[])
 	f_close(&MyFile);
 }
 
+/*
 uint32_t get_next_user()
 {
 	if((res = f_open(&MyFile, file, FA_READ)) != FR_OK)
@@ -84,23 +85,48 @@ uint32_t get_next_user()
 		index--;
 	}
 	f_close(&MyFile);
+	printf("Last line from file is %s\n", line);
 	return line;
+}
+*/
+
+/*
+void get_next_user()
+{
+	uint16_t line_count = 0;
+	// Open the text file object for reading
+	if ((res = f_open(&MyFile, file, FA_READ)) != FR_OK)
+		printf("ERROR: %s file Open for read Error: %d\r\n", file, res);
+	// Read the file line by line
+	while (f_gets(rtext, sizeof(rtext), &MyFile) != NULL)
+		line_count++;
+	// Close the file
+	f_close(&MyFile);
+	current_user_id = line_count;
+	//return line_count;
+}
+*/
+
+void read_image(TCHAR *file)
+{
+	// Open the image file object with read access
+	if ((res = f_open(&MyFile, file, FA_OPEN_EXISTING | FA_READ)) != FR_OK)
+		printf("ERROR: %s file Open for read Error: %d\r\n", file, res);
+	// Read the image data from the file
+
 }
 
 void StartFileSystemTask(void const * argument)
 {
+	osSemaphoreWait(startSemHandle, osWaitForever);
 	initialise();
 	osEvent event;												// Event structure to receive message from queue
 
 	while(1) {
 		event = osMessageGet(fileSystemQueueHandle, osWaitForever);	// Wait and get message
 		if (event.status == 0x10) {
-			switch (event.value.v) {
-			case(0):
-					get_next_user();
-				break;
-			}
+			// TODO: Add functionality
 		}
-		osDelay(100);
+		osThreadYield();
 	}
 }

@@ -25,6 +25,7 @@
 #include "fsmc.h"
 
 #include "openx07v_c_lcd.h"
+#include "dcmi_ov7670.h"
 #include "touch_panel.h"
 
 #include <stdio.h>
@@ -32,6 +33,10 @@
 #include <math.h>
 
 // Constants
+#define CAM_HEIGHT					240
+#define CAM_WIDTH					320
+#define CAM_BUFFER_LENGTH			320
+
 #define BTN_HEIGHT 					30
 #define BTN_WIDTH 					100
 #define BTN_TEXT_Y_PADDING 			7
@@ -62,11 +67,44 @@
 
 #define f_unmount(path) f_mount(0, path, 0)
 #define f_size(fp) ((fp)->obj.objsize)
-#define BUFFER_SIZE					4096
+#define BUFFER_SIZE					256
 
 // Global Variables
 enum State {WELCOME, REGISTER_ID, REGISTER_PIN, LOGIN_ID, LOGIN_PIN};
-enum Command {FINISHED, REG_ID, REG_PIN, LOG_ID, LOG_ID_ERR, LOG_ID_OK, LOG_AUTH_ERR, LOG_AUTH_OK};
+//enum State {WELCOME, REGISTER, LOGIN};
+enum Command {
+	FINISHED,
+	REG_ID,
+	REG_PIN,
+	LOG_ID,
+	LOG_ID_ERR,
+	LOG_ID_OK,
+	LOG_AUTH_ERR,
+	LOG_AUTH_OK,
+	KEY_0,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+	KEY_8,
+	KEY_9,
+};
+enum Result {ID_OK, ID_ERR, PIN_OK, PIN_ERR};
+
+struct command_object {
+	enum Command command;
+	enum Result result;
+	enum State state;
+	uint32_t key_value;
+};
+
+typedef struct {
+	uint16_t x, y, width, height;
+	const char* text;
+} btn;
 
 // Operating System Handles
 extern osThreadId defaultTaskHandle;
@@ -81,8 +119,9 @@ extern osMessageQId renderQueueHandle;
 extern osMessageQId keypadQueueHandle;
 extern osMessageQId fileSystemQueueHandle;
 extern osTimerId messageTimerHandle;
-extern osMutexId cameraMutexHandle;
+extern osMutexId lcdMutexHandle;
 extern osMutexId sdMutexHandle;
+extern osSemaphoreId startSemHandle;
 
 // Functions
 void StartDefaultTask(void const * argument);

@@ -1,0 +1,10 @@
+Ass-03-LCDTask.c:13:10:get_string_width	2
+Ass-03-LCDTask.c:22:6:drawButtonBeveled	1
+Ass-03-LCDTask.c:51:6:draw_button	1
+Ass-03-LCDTask.c:65:6:display_welcome	1
+Ass-03-LCDTask.c:78:6:display_keypad	3
+Ass-03-LCDTask.c:94:10:get_next_user	3
+Ass-03-LCDTask.c:111:6:display_registration	2
+Ass-03-LCDTask.c:133:6:display_login	1
+Ass-03-LCDTask.c:146:6:update_display	6
+Ass-03-LCDTask.c:168:6:StartLCDTask	11

@@ -9,5 +9,5 @@
 
 void MessageTimerCallback(void const * argument)
 {
-	osMessagePut(stateQueueHandle, WELCOME, osWaitForever);
+	osMessagePut(stateQueueHandle, FINISHED, osWaitForever);
 }

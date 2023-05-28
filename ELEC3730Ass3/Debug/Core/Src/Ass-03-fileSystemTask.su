@@ -1,4 +1,0 @@
-../Core/Src/Ass-03-fileSystemTask.c:21:6:initialise	16	static
-../Core/Src/Ass-03-fileSystemTask.c:33:6:read_user_id	16	static
-../Core/Src/Ass-03-fileSystemTask.c:52:6:write_user	16	static
-../Core/Src/Ass-03-fileSystemTask.c:67:6:StartFileSystemTask	584	static

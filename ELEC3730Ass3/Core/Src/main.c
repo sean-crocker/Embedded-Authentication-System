@@ -31,6 +31,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "openx07v_c_lcd.h"
+#include "dcmi_ov7670.h"
 #include "touch_panel.h"
 /* USER CODE END Includes */
 

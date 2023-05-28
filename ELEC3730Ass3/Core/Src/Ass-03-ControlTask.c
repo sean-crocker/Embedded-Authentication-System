@@ -23,6 +23,8 @@ void StartControlTask(void const * argument)
 					break;
 				case (REG_ID):
 					osMessagePut(renderQueueHandle, REG_ID, osWaitForever);
+					//osMessagePut(sdQueueHandle, GET_USER_ID, osWaitForever);
+					osMessagePut(fileSystemQueueHandle, 0, osWaitForever);
 					state = REGISTER_ID;
 					break;
 				case (REG_PIN):

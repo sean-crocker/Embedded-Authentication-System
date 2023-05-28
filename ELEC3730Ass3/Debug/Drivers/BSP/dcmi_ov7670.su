@@ -1,0 +1,8 @@
+../Drivers/BSP/dcmi_ov7670.c:46:6:DCMI_Config	4	static
+../Drivers/BSP/dcmi_ov7670.c:164:6:MCO1_Init	4	static
+../Drivers/BSP/dcmi_ov7670.c:186:6:DCMI_0V7670_PWDN_Init	4	static
+../Drivers/BSP/dcmi_ov7670.c:210:9:DCMI_OV7670_Init	16	static
+../Drivers/BSP/dcmi_ov7670.c:240:9:DCMI_OV7670_ReadID	24	static
+../Drivers/BSP/dcmi_ov7670.c:264:6:OV7670_config_window	32	static
+../Drivers/BSP/dcmi_ov7670.c:298:13:Delay	16	static
+../Drivers/BSP/dcmi_ov7670.c:303:13:Delay_ms	16	static

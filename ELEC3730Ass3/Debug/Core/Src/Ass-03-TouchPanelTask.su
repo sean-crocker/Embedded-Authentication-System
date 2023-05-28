@@ -1,0 +1,3 @@
+../Core/Src/Ass-03-TouchPanelTask.c:12:6:is_btn_touched	16	static
+../Core/Src/Ass-03-TouchPanelTask.c:18:6:touch_keypad	16	static
+../Core/Src/Ass-03-TouchPanelTask.c:76:6:StartTouchPanelTask	16	static

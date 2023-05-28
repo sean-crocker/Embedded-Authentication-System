@@ -21,7 +21,9 @@ void StartKeypadTask(void const * argument)
 		if (event.status == 0x10) {
 			keys[index] = event.value.v;		// Get key input from message queue and add it to the array
 			index++;
-			char display[4] = "";
+			//char display[4] = "";
+			const char* display = "";
+			/*
 			switch (index) {
 				case 1:
 					display_text_x_pos = 234;
@@ -36,11 +38,14 @@ void StartKeypadTask(void const * argument)
 					display_text_x_pos = 218;
 					break;
 			}
+			*/
 			for (uint8_t i = 0; i < index; i++)
 				sprintf(&display[i], "%d", keys[i]);
 
-			// TODO: Add mutex
 			BSP_LCD_DisplayStringAt(display_text_x_pos, (uint16_t)92, (uint8_t*)display, LEFT_MODE);
+
+			// TODO: Add mutex
+			BSP_LCD_DisplayStringAt(240 - get_string_width(display)/2, 100 - BSP_LCD_GetFont()->Height/2, (uint8_t *)display, LEFT_MODE);
 
 			if ((state == LOGIN_ID && index == 3) || ((state == REGISTER_PIN || state == LOGIN_PIN) && index == 4)) {
 				for (uint8_t i = 0; i < index; i++) {
@@ -49,7 +54,8 @@ void StartKeypadTask(void const * argument)
 			    index = 0;
 
 			    if (state == LOGIN_ID) {
-			      osMessagePut(stateQueueHandle, LOG_ID_OK, osWaitForever);
+			      // TODO: Read from SD to see if ID is valid
+			    	osMessagePut(stateQueueHandle, LOG_ID_OK, osWaitForever);
 			      // TODO: Add invalid ID
 			    } else {
 			      osMessagePut(stateQueueHandle, WELCOME, osWaitForever);
@@ -57,5 +63,6 @@ void StartKeypadTask(void const * argument)
 			    }
 			}
 		}
+		osDelay(100);
 	}
 }
