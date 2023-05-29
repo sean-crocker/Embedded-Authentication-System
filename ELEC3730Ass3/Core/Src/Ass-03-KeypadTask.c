@@ -7,6 +7,14 @@
 
 #include "Ass-03.h"
 
+void StartKeypadTask(void const * argument)
+{
+	for(;;) {
+		osDelay(100);
+	}
+}
+
+/*
 extern enum State state;		// State of the system
 
 void StartKeypadTask(void const * argument)
@@ -38,14 +46,13 @@ void StartKeypadTask(void const * argument)
 					display_text_x_pos = 218;
 					break;
 			}
-			*/
 			for (uint8_t i = 0; i < index; i++)
 				sprintf(&display[i], "%d", keys[i]);
 
-			BSP_LCD_DisplayStringAt(display_text_x_pos, (uint16_t)92, (uint8_t*)display, LEFT_MODE);
+			//BSP_LCD_DisplayStringAt(display_text_x_pos, (uint16_t)92, (uint8_t*)display, LEFT_MODE);
 
 			// TODO: Add mutex
-			BSP_LCD_DisplayStringAt(240 - get_string_width(display)/2, 100 - BSP_LCD_GetFont()->Height/2, (uint8_t *)display, LEFT_MODE);
+			BSP_LCD_DisplayStringAt(get_btntext_pos(display, KEY_DISPLAY_X_POS, KEY_DISPLAY_WIDTH, BSP_LCD_GetFont()->Width), get_btntext_pos(display, KEY_DISPLAY_Y_POS, KEY_DISPLAY_HEIGHT, BSP_LCD_GetFont()->Height), (uint8_t*)display, LEFT_MODE);
 
 			if ((state == LOGIN_ID && index == 3) || ((state == REGISTER_PIN || state == LOGIN_PIN) && index == 4)) {
 				for (uint8_t i = 0; i < index; i++) {
@@ -66,3 +73,4 @@ void StartKeypadTask(void const * argument)
 		osDelay(100);
 	}
 }
+*/

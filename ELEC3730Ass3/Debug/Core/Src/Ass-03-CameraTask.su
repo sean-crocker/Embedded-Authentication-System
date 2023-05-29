@@ -1,5 +1,6 @@
-../Core/Src/Ass-03-CameraTask.c:18:6:HAL_DCMI_FrameEventCallback	16	static
-../Core/Src/Ass-03-CameraTask.c:23:6:HAL_DCMI_VsyncEventCallback	16	static
-../Core/Src/Ass-03-CameraTask.c:31:6:HAL_DCMI_LineEventCallback	16	static
-../Core/Src/Ass-03-CameraTask.c:37:6:DMA_IT_Callback_Fn	16	static
-../Core/Src/Ass-03-CameraTask.c:92:6:StartCameraTask	32	static
+../Core/Src/Ass-03-CameraTask.c:20:6:HAL_DCMI_FrameEventCallback	16	static
+../Core/Src/Ass-03-CameraTask.c:25:6:HAL_DCMI_VsyncEventCallback	16	static
+../Core/Src/Ass-03-CameraTask.c:33:6:HAL_DCMI_LineEventCallback	16	static
+../Core/Src/Ass-03-CameraTask.c:39:6:DMA_IT_Callback_Fn	16	static
+../Core/Src/Ass-03-CameraTask.c:48:6:save	8	static
+../Core/Src/Ass-03-CameraTask.c:159:6:StartCameraTask	32	static

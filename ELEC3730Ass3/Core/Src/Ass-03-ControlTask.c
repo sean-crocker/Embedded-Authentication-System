@@ -8,6 +8,11 @@
 #include "Ass-03.h"
 
 enum State state = WELCOME;		// State of the system
+Button btn_photo = {190, 115, 100, 30, "Photo"};
+Button btn_cancel = {20, 190, 100, 30, "Cancel"};
+Button btn_register = {190, 90, 100, 30, "Register"};
+Button btn_login = {190, 140, 100, 30, "Login"};
+Button key_display = {200, 90, 80, 20, ""};
 
 void StartControlTask(void const * argument)
 {
@@ -23,8 +28,7 @@ void StartControlTask(void const * argument)
 					break;
 				case (REG_ID):
 					osMessagePut(renderQueueHandle, REG_ID, osWaitForever);
-					//osMessagePut(sdQueueHandle, GET_USER_ID, osWaitForever);
-					osMessagePut(fileSystemQueueHandle, 0, osWaitForever);
+					osMessagePut(fileSystemQueueHandle, CHECK_REGISTER_ID, osWaitForever);
 					state = REGISTER_ID;
 					break;
 				case (REG_PIN):
@@ -54,6 +58,36 @@ void StartControlTask(void const * argument)
 				case (LOG_AUTH_OK):
 					osMessagePut(renderQueueHandle, LOG_AUTH_OK, osWaitForever);
 					osTimerStart(messageTimerHandle, 2000);			// Start the message timer
+					break;
+				case (KEY_0):
+					osMessagePut(renderQueueHandle, KEY_0, osWaitForever);
+					break;
+				case (KEY_1):
+					osMessagePut(renderQueueHandle, KEY_1, osWaitForever);
+					break;
+				case (KEY_2):
+					osMessagePut(renderQueueHandle, KEY_2, osWaitForever);
+					break;
+				case (KEY_3):
+					osMessagePut(renderQueueHandle, KEY_3, osWaitForever);
+					break;
+				case (KEY_4):
+					osMessagePut(renderQueueHandle, KEY_4, osWaitForever);
+					break;
+				case (KEY_5):
+					osMessagePut(renderQueueHandle, KEY_5, osWaitForever);
+					break;
+				case (KEY_6):
+					osMessagePut(renderQueueHandle, KEY_6, osWaitForever);
+					break;
+				case (KEY_7):
+					osMessagePut(renderQueueHandle, KEY_7, osWaitForever);
+					break;
+				case (KEY_8):
+					osMessagePut(renderQueueHandle, KEY_8, osWaitForever);
+					break;
+				case (KEY_9):
+					osMessagePut(renderQueueHandle, KEY_9, osWaitForever);
 					break;
 			}
 		}

@@ -8,13 +8,19 @@
 #include "Ass-03.h"
 
 extern enum State state;		// State of the system
+extern Button btn_photo;
+extern Button btn_cancel;
+extern Button btn_register;
+extern Button btn_login;
+extern Button key_display;
 
-bool is_btn_touched(uint16_t corr_x_pos, uint16_t corr_y_pos, uint16_t btn_x_pos, uint16_t btn_y_pos)
+bool is_btn_touched(uint16_t corr_x_pos, uint16_t corr_y_pos, Button btn)
 {
-	return (corr_x_pos >= btn_x_pos && corr_x_pos <= btn_x_pos + BTN_WIDTH &&
-			corr_y_pos >= btn_y_pos && corr_y_pos <= btn_y_pos + BTN_HEIGHT);
+	return (corr_x_pos >= btn.x_pos && corr_x_pos <= btn.x_pos + btn.width &&
+			corr_y_pos >= btn.y_pos && corr_y_pos <= btn.y_pos + btn.height);
 }
 
+/*
 void touch_keypad(uint16_t x, uint16_t y)
 {
 	switch (x) {
@@ -72,6 +78,65 @@ void touch_keypad(uint16_t x, uint16_t y)
 			break;
 	}
 }
+*/
+
+void touch_keypad(uint16_t x, uint16_t y)
+{
+	switch (x) {
+		case 200 ... 220:		// First Column
+			switch (y) {
+				case 120 ... 140:	// First Row
+					// Button 1 Pressed
+					osMessagePut(stateQueueHandle, KEY_1, osWaitForever);
+					break;
+				case 150 ... 170:	// Second Row
+					// Button 4 Pressed
+					osMessagePut(stateQueueHandle, KEY_4, osWaitForever);
+					break;
+				case 180 ... 200:	// Third Row
+					// Button 7 Pressed
+					osMessagePut(stateQueueHandle, KEY_7, osWaitForever);
+					break;
+			}
+			break;
+		case 230 ... 250:		// Second Column
+			switch (y) {
+				case 120 ... 140:	// First Row
+					// Button 2 Pressed
+					osMessagePut(stateQueueHandle, KEY_2, osWaitForever);
+					break;
+				case 150 ... 170:	// Second Row
+					// Button 5 Pressed
+					osMessagePut(stateQueueHandle, KEY_5, osWaitForever);
+					break;
+				case 180 ... 200:	// Third Row
+					// Button 8 Pressed
+					osMessagePut(stateQueueHandle, KEY_8, osWaitForever);
+					break;
+				case 210 ... 230:	// Fourth Row
+					// Button 0 Pressed
+					osMessagePut(stateQueueHandle, KEY_0, osWaitForever);
+					break;
+			}
+			break;
+		case 260 ... 280:		// Third Column
+			switch (y) {
+				case 120 ... 140:	// First Row
+					// Button 3 Pressed
+					osMessagePut(stateQueueHandle, KEY_3, osWaitForever);
+					break;
+				case 150 ... 170:	// Second Row
+					// Button 6 Pressed
+					osMessagePut(stateQueueHandle, KEY_6, osWaitForever);
+					break;
+				case 180 ... 200:	// Third Row
+					// Button 9 Pressed
+					osMessagePut(stateQueueHandle, KEY_9, osWaitForever);
+					break;
+			}
+			break;
+	}
+}
 
 void StartTouchPanelTask(void const * argument)
 {
@@ -81,22 +146,22 @@ void StartTouchPanelTask(void const * argument)
 		getDisplayPoint(&display, Read_Ads7846(), &matrix);
 		switch (state) {
 			case (WELCOME):
-				if (is_btn_touched(display.x, display.y, BTN_REGISTER_X_POS, BTN_REGISTER_Y_POS))		// Tell Control Task that register button has been pressed
+				if (is_btn_touched(display.x, display.y, btn_register))		// Tell Control Task that register button has been pressed
 					osMessagePut(stateQueueHandle, REG_ID, osWaitForever);
-				else if (is_btn_touched(display.x, display.y, BTN_LOGIN_X_POS, BTN_LOGIN_Y_POS))		// Tell Control Task that login button has been pressed
+				else if (is_btn_touched(display.x, display.y, btn_login))		// Tell Control Task that login button has been pressed
 					osMessagePut(stateQueueHandle, LOG_ID, osWaitForever);
 				break;
 			case (REGISTER_ID):
-				if (is_btn_touched(display.x, display.y, BTN_PHOTO_X_POS, BTN_PHOTO_Y_POS))				// Tell Control Task that photo button has been pressed
+				if (is_btn_touched(display.x, display.y, btn_photo))				// Tell Control Task that photo button has been pressed
 					osMessagePut(stateQueueHandle, REG_PIN, osWaitForever);
-				else if (is_btn_touched(display.x, display.y, BTN_CANCEL_X_POS, BTN_CANCEL_Y_POS))		// Tell Control Task that cancel button has been pressed
+				else if (is_btn_touched(display.x, display.y, btn_cancel))		// Tell Control Task that cancel button has been pressed
 					osMessagePut(stateQueueHandle, FINISHED, osWaitForever);
 				break;
 			case (REGISTER_PIN):
 			case (LOGIN_ID):
 			case (LOGIN_PIN):
 				touch_keypad(display.x, display.y);
-				if (is_btn_touched(display.x, display.y, BTN_CANCEL_X_POS, BTN_CANCEL_Y_POS))			// Tell Control Task that cancel button has been pressed
+				if (is_btn_touched(display.x, display.y, btn_cancel))			// Tell Control Task that cancel button has been pressed
 					osMessagePut(stateQueueHandle, FINISHED, osWaitForever);
 				break;
 		}

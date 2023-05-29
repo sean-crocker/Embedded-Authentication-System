@@ -1,5 +1,8 @@
-Ass-03-SDTask.c:25:6:initialise	4
-Ass-03-SDTask.c:35:6:read_user_id	4
-Ass-03-SDTask.c:54:6:write_user	4
-Ass-03-SDTask.c:110:6:read_image	2
-Ass-03-SDTask.c:119:6:StartFileSystemTask	1
+Ass-03-SDTask.c:27:6:initialise	4
+Ass-03-SDTask.c:37:6:read_user_id	4
+Ass-03-SDTask.c:56:6:read_user	3
+Ass-03-SDTask.c:70:6:read_user_pin	3
+Ass-03-SDTask.c:87:6:set_user_pin	4
+Ass-03-SDTask.c:102:6:set_next_user	4
+Ass-03-SDTask.c:140:6:read_image	2
+Ass-03-SDTask.c:149:6:StartFileSystemTask	6

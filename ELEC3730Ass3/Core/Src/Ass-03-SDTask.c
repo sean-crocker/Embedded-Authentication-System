@@ -12,12 +12,14 @@ FIL MyFile; 						// File object
 DIR MyDirectory;					// Directory object
 FILINFO fno;						// File information object
 const TCHAR *file = "storage_file.txt";
+extern char id[4];
+extern char pin[5];
 
 uint32_t Buffer_Tx[512/4], Buffer_Rx[512/4];
 
 FRESULT res; 						// FatFs function common result code
 uint32_t byteswritten, bytesread; 	// File write/read counts
-BYTE buffer[BUFFER_SIZE];         	// Working buffer
+//BYTE buffer[BUFFER_SIZE];         	// Working buffer
 char rtext[256]; 					// File read buffer
 
 uint32_t current_user_id = 0;
@@ -51,23 +53,53 @@ void read_user_id()
 
 }
 
-void write_user(TCHAR *file, TCHAR info[])
+void read_user()
+{
+	if ((res = f_stat(id, &fno)) == FR_OK) {
+		osMessagePut(stateQueueHandle, LOG_ID_OK, osWaitForever);
+	}
+	else if ((res = f_stat(id, &fno)) == FR_NO_FILE) {
+		osMessagePut(stateQueueHandle, LOG_ID_ERR, osWaitForever);
+	}
+	else {
+		printf("Error checking file for user: %d\r\n", res);
+		osMessagePut(stateQueueHandle, LOG_ID_ERR, osWaitForever);
+	}
+}
+
+void read_user_pin()
+{
+	char info[5];
+	if((res = f_open(&MyFile, id, FA_READ)) != FR_OK)
+		printf("ERROR: %s file Open for read Error: %d\r\n", file, res);
+	res = f_read(&MyFile, info, 4, (void *)&bytesread);
+	if (res != FR_OK) {
+		printf("Error reading file: %d\r\n", res);
+	}
+	else if (pin != info) {
+		osMessagePut(stateQueueHandle, LOG_AUTH_ERR, osWaitForever);
+	}
+	else {
+		osMessagePut(stateQueueHandle, LOG_AUTH_OK, osWaitForever);
+	}
+}
+
+void set_user_pin()
 {
 	// Open the text file object for writing
-	if ((res = f_open(&MyFile, file, FA_CREATE_ALWAYS | FA_WRITE)) != FR_OK)
+	if ((res = f_open(&MyFile, id, FA_CREATE_ALWAYS | FA_WRITE)) != FR_OK)
 		printf("ERROR: File Open for write Error: %d\r\n", res);
 
 	// Write data to the file
-	res = f_write(&MyFile, info, sizeof(info), (void *)&byteswritten);
-	if ((byteswritten < sizeof(info)) || (res != FR_OK))
+	res = f_write(&MyFile, pin, sizeof(pin), (void *)&byteswritten);
+	if ((byteswritten < sizeof(pin)) || (res != FR_OK))
 		printf("ERROR: File Write or EOF Error: %d\r\n", res);
 
 	// Close the open text file
 	f_close(&MyFile);
 }
 
-/*
-uint32_t get_next_user()
+void set_next_user()
 {
 	if((res = f_open(&MyFile, file, FA_READ)) != FR_OK)
 		printf("ERROR: %s file Open for read Error: %d\r\n", file, res);
@@ -75,20 +107,18 @@ uint32_t get_next_user()
 	// Navigate to the end of the file
 	f_lseek(&MyFile, f_size(&MyFile) - 1);
 
-	int index = BUFFER_SIZE - 1;
-	char line[BUFFER_SIZE] = {0};
+	int index = 4 - 1;
+	//char line[4] = {0};
 
-	while ((res = f_read(&MyFile, buffer, 7, (void *)&bytesread)) == FR_OK) {
-		if (buffer[0] == '\n')
+	while ((res = f_read(&MyFile, rtext, 3, (void *)&bytesread)) == FR_OK) {
+		if (rtext[0] == '\n')
 			break;
-		line[index] = buffer[0];
+		id[index] = rtext[0];
 		index--;
 	}
 	f_close(&MyFile);
-	printf("Last line from file is %s\n", line);
-	return line;
+	//id = line;
 }
-*/
 
 /*
 void get_next_user()
@@ -125,7 +155,20 @@ void StartFileSystemTask(void const * argument)
 	while(1) {
 		event = osMessageGet(fileSystemQueueHandle, osWaitForever);	// Wait and get message
 		if (event.status == 0x10) {
-			// TODO: Add functionality
+			switch (event.value.v) {
+			case (CHECK_REGISTER_ID):		// Get latest ID
+				set_next_user();
+				break;
+			case (SET_REGISTER_PIN):		// Write file for PIN
+				set_user_pin();
+				break;
+			case (CHECK_LOGIN_ID):			// Read ID
+				read_user();
+				break;
+			case (CHECK_LOGIN_PIN):			// Read PIN
+				read_user_pin();
+				break;
+			}
 		}
 		osThreadYield();
 	}

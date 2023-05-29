@@ -67,21 +67,27 @@ void save()
 	}
 }
 
-void write_to_file() {
-	for (uint16_t i = 0; i < CAM_HEIGHT/2; i++) {
-		res = f_write(&MyFile, &camera_buffer_all[i][0], CAM_WIDTH, (void*)&byeswritten);
-		if ((byteswritten < CAM_BUFFER_LENGTH || (res != FR_OK))) {
-			printf("ERROR: File Write or EOF Error: %d\r\n", res);
-		}
-	}
-}
+/*
+ * TODO: Move to SDTask
+ */
+//void write_to_file() {
+//	for (uint16_t i = 0; i < CAM_HEIGHT/2; i++) {
+//		res = f_write(&MyFile, &camera_buffer_all[i][0], CAM_WIDTH, (void*)&byeswritten);
+//		if ((byteswritten < CAM_BUFFER_LENGTH || (res != FR_OK))) {
+//			printf("ERROR: File Write or EOF Error: %d\r\n", res);
+//		}
+//	}
+//}
 
-void read_from_file() {
-	res = f_read(&MyFile, &camera_buffer_all[0][0], CAM_HEIGHT*CAM_WIDTH/2, (void*)&bytesread);
-	if ((bytesread < filesize) || (res != FR_OK)) {
-		printf("%s file Read or EOF Error: %d\r\n", file, res);
-	}
-}
+/*
+ * TODO: Move to SDTask
+ */
+//void read_from_file() {
+//	res = f_read(&MyFile, &camera_buffer_all[0][0], CAM_HEIGHT*CAM_WIDTH/2, (void*)&bytesread);
+//	if ((bytesread < filesize) || (res != FR_OK)) {
+//		printf("%s file Read or EOF Error: %d\r\n", file, res);
+//	}
+//}
 
 /*
 void StartCameraTask(void const * argument)
@@ -133,19 +139,22 @@ void StartCameraTask(void const * argument)
 }
 */
 
-void switch_to_circular()
-{
-	HAL_DCMI_Stop(&hdcmi);
-	hdma_dcmi.Init.Mode = DMA_CIRCULAR;
-	HAL_DMA_Init(&hdma_dcmi);
-}
+/*
+ * TODO: Fix, to to header file
+ */
+//void switch_to_circular()
+//{
+//	HAL_DCMI_Stop(&hdcmi);
+//	hdma_dcmi.Init.Mode = DMA_CIRCULAR;
+//	HAL_DMA_Init(&hdma_dcmi);
+//}
 
-void switch_to_normal()
-{
-	HAL_DCMI_Stop(&hdcmi);
-	hdma_dcmi.Init.Mode = DMA_NORMAL;
-	HAL_DMA_Init(&hdma_dcmi);
-}
+//void switch_to_normal()
+//{
+//	HAL_DCMI_Stop(&hdcmi);
+//	hdma_dcmi.Init.Mode = DMA_NORMAL;
+//	HAL_DMA_Init(&hdma_dcmi);
+//}
 
 void StartCameraTask(void const * argument)
 {
